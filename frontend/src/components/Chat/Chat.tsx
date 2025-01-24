@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSendMessageMutation } from "@/store/services/chatApi";
 import { ChatMessage } from "@/store/services/chatApi";
 import styles from "./Chat.module.scss";
@@ -26,12 +26,20 @@ export const Chat = () => {
 
     try {
       const response = await sendMessage(message).unwrap();
-      setMessages((prev) => [...prev, response]);
+      const assistantMessage: ChatMessage = {
+        id: Date.now().toString(),
+        content: response.choices[0].message.content,
+        role: "assistant",
+        timestamp: Date.now(),
+      };
+      setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
-
+  useEffect(() => {
+    console.log("use effect", messages);
+  }, [messages]);
   return (
     <div className={styles.chat}>
       <header className={styles.header}>

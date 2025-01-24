@@ -22,14 +22,29 @@ A web application that helps users transform their questions into SMART goals (S
 ## Getting Started
 
 1. Clone the repository
+
+   ```bash
+   git clone https://github.com/HGreender/AIBIZ.git
+   ```
+
+Then move to `frontend` folder
+
+```
+cd AIBIZ/frontend
+```
+
 2. Install dependencies:
+
    ```bash
    npm install
    ```
+
 3. Create a `.env` file in the root directory and add your OpenAI API key:
+
    ```
    OPENAI_API_KEY=your_api_key_here
    ```
+
 4. Run the development server:
    ```bash
    npm run dev
