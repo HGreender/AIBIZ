@@ -21,7 +21,14 @@ export const chatApi = createApi({
         },
         body: JSON.stringify({
           model: "openai/gpt-3.5-turbo",
-          messages: [{ role: "user", content: message }],
+          messages: [
+            {
+              role: "system",
+              content:
+                "You are a SMART goals expert. Analyze the input and provide three SMART goal suggestions and identify missing SMART components. Give a short comments (not more 1 little sentences)",
+            },
+            { role: "user", content: message },
+          ],
         }),
       }),
     }),
