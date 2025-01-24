@@ -37,6 +37,7 @@ export const Chat = () => {
       content: message,
       role: "user",
       timestamp: Date.now(),
+      choices: undefined,
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -50,6 +51,7 @@ export const Chat = () => {
         content: response.choices[0].message.content,
         role: "assistant",
         timestamp: Date.now(),
+        choices: undefined,
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {

@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export interface ChatMessage {
+export type ChatMessage = {
+  choices: any;
   id: string;
-  content: string;
+  content: any;
   role: "user" | "assistant";
   timestamp: number;
-}
+};
 
 export const chatApi = createApi({
   reducerPath: "chatApi",
