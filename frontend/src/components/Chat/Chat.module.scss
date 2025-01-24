@@ -170,3 +170,17 @@
     font-family: monospace;
     font-size: 0.9em;
 }
+
+.clearButton {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+
+    &:hover {
+        background-color: #ff1a1a;
+    }
+}

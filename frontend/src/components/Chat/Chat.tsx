@@ -58,7 +58,10 @@ export const Chat = () => {
       setIsLoading(false);
     }
   };
-
+  const clearMessages = () => {
+    localStorage.removeItem("chatMessages");
+    setMessages([]); // Clear the messages state
+  };
   const MessageContent = ({
     content,
     role,
@@ -93,6 +96,9 @@ export const Chat = () => {
     <div className={styles.chat}>
       <header className={styles.header}>
         <h1>Make SMART goals</h1>
+        <button onClick={clearMessages} className={styles.clearButton}>
+          Clear Chat
+        </button>
       </header>
 
       <div className={styles.messages}>
