@@ -3,12 +3,30 @@
 import { useState, useEffect } from "react";
 import { useSendMessageMutation } from "@/store/services/chatApi";
 import { ChatMessage } from "@/store/services/chatApi";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import styles from "./Chat.module.scss";
 
 export const Chat = () => {
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [sendMessage] = useSendMessageMutation();
+
+  // Load messages from localStorage after component mounts
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedMessages = localStorage.getItem("chatMessages");
+      if (savedMessages) {
+        setMessages(JSON.parse(savedMessages));
+      }
+    }
+  }, []);
+
+  // Save messages to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem("chatMessages", JSON.stringify(messages));
+  }, [messages]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,6 +41,7 @@ export const Chat = () => {
 
     setMessages((prev) => [...prev, userMessage]);
     setMessage("");
+    setIsLoading(true);
 
     try {
       const response = await sendMessage(message).unwrap();
@@ -35,11 +54,41 @@ export const Chat = () => {
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("Error sending message:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
-  useEffect(() => {
-    console.log("use effect", messages);
-  }, [messages]);
+
+  const MessageContent = ({
+    content,
+    role,
+  }: {
+    content: string;
+    role: string;
+  }) => {
+    if (role === "assistant") {
+      return (
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            p: ({ children }) => <p className={styles.paragraph}>{children}</p>,
+            ul: ({ children }) => <ul className={styles.list}>{children}</ul>,
+            ol: ({ children }) => <ol className={styles.list}>{children}</ol>,
+            li: ({ children }) => (
+              <li className={styles.listItem}>{children}</li>
+            ),
+            code: ({ children }) => (
+              <code className={styles.code}>{children}</code>
+            ),
+          }}
+        >
+          {content}
+        </ReactMarkdown>
+      );
+    }
+    return <>{content}</>;
+  };
+
   return (
     <div className={styles.chat}>
       <header className={styles.header}>
@@ -54,9 +103,16 @@ export const Chat = () => {
               msg.role === "user" ? styles.userMessage : styles.assistantMessage
             }`}
           >
-            {msg.content}
+            <MessageContent content={msg.content} role={msg.role} />
           </div>
         ))}
+        {isLoading && (
+          <div className={styles.loadingMessage}>
+            <div className={styles.dot}></div>
+            <div className={styles.dot}></div>
+            <div className={styles.dot}></div>
+          </div>
+        )}
       </div>
 
       <form className={styles.inputPanel} onSubmit={handleSubmit}>
