@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSendMessageMutation } from "@/store/services/chatApi";
-import { ChatMessage } from "@/store/services/chatApi";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { useSendMessageMutation } from "@/api/chatApi";
+import { ChatMessage } from "@/api/chatApi";
+
 import styles from "./Chat.module.scss";
 
 export const Chat = () => {
@@ -53,8 +52,7 @@ export const Chat = () => {
         not_smart?: string[];
         suggestions?: string[];
       }
-      const result: ParsedResult = {}; // Define the type of result
-
+      const result: ParsedResult = {};
       lines.forEach((line) => {
         if (line.startsWith("not_smart:")) {
           result.not_smart = line
@@ -79,14 +77,12 @@ export const Chat = () => {
 
       const assistantMessages: ChatMessage[] =
         parsedObject.suggestions?.map((suggestion: string, index: number) => ({
-          id: Date.now().toString() + index.toString(), // Ensure unique IDs as strings
+          id: Date.now().toString() + index.toString(),
           role: "assistant",
           content: suggestion,
           choices: undefined,
           timestamp: Date.now(),
-        })) || []; // Provide a default value of an empty array if suggestions is undefined
-
-      // Update messages state with assistant messages
+        })) || [];
       setMessages((prev) => [...prev, ...assistantMessages]);
     } catch (error) {
       console.error("Error sending message:", error);
@@ -97,7 +93,7 @@ export const Chat = () => {
 
   const clearMessages = () => {
     localStorage.removeItem("chatMessages");
-    setMessages([]); // Clear the messages state
+    setMessages([]);
   };
 
   const copyToClipboard = (text: string) => {
