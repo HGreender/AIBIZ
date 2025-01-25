@@ -4,6 +4,7 @@ export type ChatMessage = {
   choices: any;
   id: string;
   content: any;
+  comment?: string;
   role: "user" | "assistant";
   timestamp: number;
 };

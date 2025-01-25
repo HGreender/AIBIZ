@@ -53,6 +53,10 @@
 .assistantMessage {
     align-self: flex-start;
     background-color: #333;
+
+    &_summary {
+        background-color: #3c2424;
+    }
 }
 
 .inputPanel {

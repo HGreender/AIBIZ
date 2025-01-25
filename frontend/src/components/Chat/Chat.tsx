@@ -80,8 +80,10 @@ export const Chat = () => {
       const assistantMessages: ChatMessage[] =
         parsedObject.suggestions?.map((suggestion: string, index: number) => ({
           id: Date.now().toString() + index.toString(), // Ensure unique IDs as strings
+          role: "assistant",
           content: suggestion,
           choices: undefined,
+          timestamp: Date.now(),
         })) || []; // Provide a default value of an empty array if suggestions is undefined
 
       // Update messages state with assistant messages
