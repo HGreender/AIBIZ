@@ -25,7 +25,9 @@ export const Chat = () => {
 
   // Save messages to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem("chatMessages", JSON.stringify(messages));
+    if (messages.length != 0) {
+      localStorage.setItem("chatMessages", JSON.stringify(messages));
+    }
   }, [messages]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -77,14 +79,14 @@ export const Chat = () => {
           remarkPlugins={[remarkGfm]}
           components={{
             p: ({ children }) => <p className={styles.paragraph}>{children}</p>,
-            ul: ({ children }) => <ul className={styles.list}>{children}</ul>,
-            ol: ({ children }) => <ol className={styles.list}>{children}</ol>,
-            li: ({ children }) => (
-              <li className={styles.listItem}>{children}</li>
-            ),
-            code: ({ children }) => (
-              <code className={styles.code}>{children}</code>
-            ),
+            // ul: ({ children }) => <ul className={styles.list}>{children}</ul>,
+            // ol: ({ children }) => <ol className={styles.list}>{children}</ol>,
+            // li: ({ children }) => (
+            //   <li className={styles.listItem}>{children}</li>
+            // ),
+            // code: ({ children }) => (
+            //   <code className={styles.code}>{children}</code>
+            // ),
           }}
         >
           {content}

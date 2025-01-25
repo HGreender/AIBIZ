@@ -1,7 +1,7 @@
 @import './messages.module.scss';
 
 .chat {
-    max-width: 420px;
+    width: clamp(320px, 90%, 760px);
     margin: 0 auto;
     height: 100vh;
     display: flex;

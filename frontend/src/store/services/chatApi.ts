@@ -26,7 +26,7 @@ export const chatApi = createApi({
             {
               role: "system",
               content:
-                "You are a SMART goals expert. Analyze the input and provide three SMART goal suggestions and identify missing SMART components. Give a short comments (not more 1 little sentences)",
+                "you will be provided with a man formulated task and you should analyse it by creteria of SMART. Your answer should contain only 2 blocks as object: 1. You should give back letters of SMART by wich this task is not related(letters only).  key - not_smart 2. You should offer 5 options for correctly formulated task by creteria of SMART.  key - suggestions",
             },
             { role: "user", content: message },
           ],
