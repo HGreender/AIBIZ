@@ -46,16 +46,56 @@ export const Chat = () => {
     setMessage("");
     setIsLoading(true);
 
+    // Функция для преобразования строки в объект
+    function parseInput(input: string) {
+      const lines = input.trim().split("\n");
+      interface ParsedResult {
+        not_smart?: string[];
+        suggestions?: string[];
+      }
+      const result: ParsedResult = {}; // Define the type of result
+
+      lines.forEach((line) => {
+        if (line.startsWith("not_smart:")) {
+          result.not_smart = line
+            .replace("not_smart:", "")
+            .trim()
+            .split(",")
+            .map((item) => item.trim());
+        } else if (line.startsWith("suggestions:")) {
+          result.suggestions = lines
+            .slice(lines.indexOf(line) + 1)
+            .map((item) => item.trim())
+            .filter((item) => item);
+        }
+      });
+      console.log(result);
+      return result;
+    }
+
     try {
       const response = await sendMessage(message).unwrap();
-      const assistantMessage: ChatMessage = {
-        id: Date.now().toString(),
-        content: response.choices[0].message.content,
-        role: "assistant",
-        timestamp: Date.now(),
-        choices: undefined,
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
+      const parsedObject = parseInput(response.choices[0].message.content);
+      // const assistantMessage: ChatMessage = {
+      //   id: Date.now().toString(),
+      //   content: parsedObject,
+      //   role: "assistant",
+      //   timestamp: Date.now(),
+      //   choices: undefined,
+      // };
+      // setMessages((prev) => [...prev, assistantMessage]);
+
+      const assistantMessages: ChatMessage[] =
+        parsedObject.suggestions?.map((suggestion: string, index: number) => ({
+          id: Date.now().toString() + index.toString(), // Ensure unique IDs as strings
+          content: suggestion,
+          role: "assistant",
+          timestamp: Date.now(),
+          choices: undefined,
+        })) || []; // Provide a default value of an empty array if suggestions is undefined
+
+      // Update messages state with assistant messages
+      setMessages((prev) => [...prev, ...assistantMessages]);
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
@@ -73,26 +113,27 @@ export const Chat = () => {
     content: string;
     role: string;
   }) => {
-    if (role === "assistant") {
-      return (
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          components={{
-            p: ({ children }) => <p className={styles.paragraph}>{children}</p>,
-            // ul: ({ children }) => <ul className={styles.list}>{children}</ul>,
-            // ol: ({ children }) => <ol className={styles.list}>{children}</ol>,
-            // li: ({ children }) => (
-            //   <li className={styles.listItem}>{children}</li>
-            // ),
-            // code: ({ children }) => (
-            //   <code className={styles.code}>{children}</code>
-            // ),
-          }}
-        >
-          {content}
-        </ReactMarkdown>
-      );
-    }
+    // if (role === "assistant") {
+
+    //   return (
+    //     <ReactMarkdown
+    //       remarkPlugins={[remarkGfm]}
+    //       components={{
+    //         p: ({ children }) => <p className={styles.paragraph}>{children}</p>,
+    //         // ul: ({ children }) => <ul className={styles.list}>{children}</ul>,
+    //         // ol: ({ children }) => <ol className={styles.list}>{children}</ol>,
+    //         li: ({ children }) => (
+    //           <li className={styles.listItem}>{children}</li>
+    //         ),
+    //         // code: ({ children }) => (
+    //         //   <code className={styles.code}>{children}</code>
+    //         // ),
+    //       }}
+    //     >
+    //       {content}
+    //     </ReactMarkdown>
+    //   );
+    // }
     return <>{content}</>;
   };
 
