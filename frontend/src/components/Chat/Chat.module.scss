@@ -31,6 +31,11 @@
     gap: 1rem;
 }
 
+.rowWrapper {
+    display: flex;
+
+}
+
 .message {
     padding: 0.75rem 1rem;
     border-radius: 1rem;
@@ -41,6 +46,8 @@
 .userMessage {
     align-self: flex-end;
     background-color: #2b5876;
+    margin-left: auto;
+    margin-block: 2rem;
 }
 
 .assistantMessage {
@@ -182,5 +189,23 @@
 
     &:hover {
         background-color: #ff1a1a;
+    }
+}
+
+.copyButton {
+    width: 50px;
+    height: 30px;
+    align-self: center;
+    justify-self: center;
+    background-color: #4caf4f51;
+    color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-left: 0.5rem;
+
+    &:hover {
+        background-color: #45a049;
     }
 }

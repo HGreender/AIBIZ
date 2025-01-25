@@ -25,7 +25,7 @@ export const Chat = () => {
 
   // Save messages to localStorage whenever they change
   useEffect(() => {
-    if (messages.length != 0) {
+    if (messages.length !== 0) {
       localStorage.setItem("chatMessages", JSON.stringify(messages));
     }
   }, [messages]);
@@ -46,7 +46,7 @@ export const Chat = () => {
     setMessage("");
     setIsLoading(true);
 
-    // Функция для преобразования строки в объект
+    // Function to parse input string into an object
     function parseInput(input: string) {
       const lines = input.trim().split("\n");
       interface ParsedResult {
@@ -76,21 +76,11 @@ export const Chat = () => {
     try {
       const response = await sendMessage(message).unwrap();
       const parsedObject = parseInput(response.choices[0].message.content);
-      // const assistantMessage: ChatMessage = {
-      //   id: Date.now().toString(),
-      //   content: parsedObject,
-      //   role: "assistant",
-      //   timestamp: Date.now(),
-      //   choices: undefined,
-      // };
-      // setMessages((prev) => [...prev, assistantMessage]);
 
       const assistantMessages: ChatMessage[] =
         parsedObject.suggestions?.map((suggestion: string, index: number) => ({
           id: Date.now().toString() + index.toString(), // Ensure unique IDs as strings
           content: suggestion,
-          role: "assistant",
-          timestamp: Date.now(),
           choices: undefined,
         })) || []; // Provide a default value of an empty array if suggestions is undefined
 
@@ -102,10 +92,23 @@ export const Chat = () => {
       setIsLoading(false);
     }
   };
+
   const clearMessages = () => {
     localStorage.removeItem("chatMessages");
     setMessages([]); // Clear the messages state
   };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        console.log("Text copied to clipboard");
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
+      });
+  };
+
   const MessageContent = ({
     content,
     role,
@@ -113,28 +116,11 @@ export const Chat = () => {
     content: string;
     role: string;
   }) => {
-    // if (role === "assistant") {
-
-    //   return (
-    //     <ReactMarkdown
-    //       remarkPlugins={[remarkGfm]}
-    //       components={{
-    //         p: ({ children }) => <p className={styles.paragraph}>{children}</p>,
-    //         // ul: ({ children }) => <ul className={styles.list}>{children}</ul>,
-    //         // ol: ({ children }) => <ol className={styles.list}>{children}</ol>,
-    //         li: ({ children }) => (
-    //           <li className={styles.listItem}>{children}</li>
-    //         ),
-    //         // code: ({ children }) => (
-    //         //   <code className={styles.code}>{children}</code>
-    //         // ),
-    //       }}
-    //     >
-    //       {content}
-    //     </ReactMarkdown>
-    //   );
-    // }
-    return <>{content}</>;
+    return (
+      <div>
+        <span>{content}</span>
+      </div>
+    );
   };
 
   return (
@@ -148,13 +134,24 @@ export const Chat = () => {
 
       <div className={styles.messages}>
         {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={`${styles.message} ${
-              msg.role === "user" ? styles.userMessage : styles.assistantMessage
-            }`}
-          >
-            <MessageContent content={msg.content} role={msg.role} />
+          <div key={msg.id} className={styles.rowWrapper}>
+            <div
+              className={`${styles.message} ${
+                msg.role === "user"
+                  ? styles.userMessage
+                  : styles.assistantMessage
+              }`}
+            >
+              <MessageContent content={msg.content} role={msg.role} />
+            </div>
+            {msg.role === "assistant" && (
+              <button
+                onClick={() => copyToClipboard(msg.content)}
+                className={styles.copyButton}
+              >
+                Copy
+              </button>
+            )}
           </div>
         ))}
         {isLoading && (
