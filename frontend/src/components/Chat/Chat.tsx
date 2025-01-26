@@ -1,15 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSendMessageMutation } from "@/api/chatApi";
 import { ChatMessage } from "@/api/chatApi";
-
+import { Tooltip } from "@/components";
 import styles from "./Chat.module.scss";
 
 export const Chat = () => {
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+
   const [sendMessage] = useSendMessageMutation();
 
   // Load messages from localStorage after component mounts
@@ -107,6 +110,10 @@ export const Chat = () => {
       });
   };
 
+  const handleTooltipToggle = () => {
+    setShowTooltip(!showTooltip);
+  };
+
   const MessageContent = ({
     content,
     role,
@@ -128,7 +135,16 @@ export const Chat = () => {
         <button onClick={clearMessages} className={styles.clearButton}>
           Clear Chat
         </button>
+        <button onClick={handleTooltipToggle} className={styles.tooltipButton}>
+          What is SMART?
+        </button>
       </header>
+
+      <Tooltip
+        visible={showTooltip}
+        onClose={() => setShowTooltip(false)}
+        ref={tooltipRef}
+      />
 
       <div className={styles.messages}>
         {messages.map((msg) => (
