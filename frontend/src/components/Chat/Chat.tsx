@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSendMessageMutation } from "@/api/chatApi";
 import { ChatMessage } from "@/api/chatApi";
-import { Tooltip } from "@/components";
+import { Tooltip, ErrorModal } from "@/components";
 import styles from "./Chat.module.scss";
 
 export const Chat = () => {
@@ -11,6 +11,7 @@ export const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
@@ -98,6 +99,9 @@ export const Chat = () => {
       setMessages((prev) => [...prev, ...assistantMessages]);
     } catch (error) {
       console.error("Error sending message:", error);
+      setErrorMessage(
+        "Failed to send message.\n Please, check internet connection or your token balance."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -200,6 +204,13 @@ export const Chat = () => {
           ↑
         </button>
       </form>
+
+      {errorMessage && (
+        <ErrorModal
+          message={errorMessage}
+          onClose={() => setErrorMessage(null)}
+        />
+      )}
     </div>
   );
 };
