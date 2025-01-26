@@ -12,6 +12,7 @@ export const Chat = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
+  const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
   const [sendMessage] = useSendMessageMutation();
 
@@ -30,6 +31,14 @@ export const Chat = () => {
     if (messages.length !== 0) {
       localStorage.setItem("chatMessages", JSON.stringify(messages));
     }
+  }, [messages]);
+
+  // Scroll to the last message whenever messages change
+  useEffect(() => {
+    endOfMessagesRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
   }, [messages]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -175,6 +184,7 @@ export const Chat = () => {
             <div className={styles.dot}></div>
           </div>
         )}
+        <div ref={endOfMessagesRef} />
       </div>
 
       <form className={styles.inputPanel} onSubmit={handleSubmit}>
