@@ -11,7 +11,7 @@ export type ChatMessage = {
 
 export const chatApi = createApi({
   reducerPath: "chatApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "hhttps://api.vsegpt.ru/v1/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://api.vsegpt.ru/v1/" }),
   endpoints: (builder) => ({
     sendMessage: builder.mutation<ChatMessage, string>({
       query: (message) => ({
