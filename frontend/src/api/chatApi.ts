@@ -1,5 +1,23 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+const AUTH_TOKEN_KEY = "OPENAI_API_KEY";
+const getAuthToken = (): string | null => {
+  if (typeof window !== "undefined") {
+    return getLocalStorage(AUTH_TOKEN_KEY);
+  }
+  return null;
+};
+const getLocalStorage = (key: string) => {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? String(item) : process.env.OPENAI_API_KEY;
+  } catch (error) {
+    console.error("Error reading from localStorage:", error);
+    return "";
+  }
+};
 
+const savedApiKey = getAuthToken();
+console.log("OPENAI_API_KEY", savedApiKey);
 export type ChatMessage = {
   choices: any;
   id: string;
@@ -18,7 +36,8 @@ export const chatApi = createApi({
         url: "chat/completions",
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          // Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          Authorization: `Bearer ${savedApiKey}`,
           "content-type": "application/json",
         },
         body: JSON.stringify({

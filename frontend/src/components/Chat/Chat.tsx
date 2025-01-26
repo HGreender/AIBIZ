@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSendMessageMutation } from "@/api/chatApi";
 import { ChatMessage } from "@/api/chatApi";
-import { Tooltip, ErrorModal } from "@/components";
+import { Tooltip, ErrorModal, InputApiKey } from "@/components";
 import styles from "./Chat.module.scss";
 
 export const Chat = () => {
@@ -11,7 +11,9 @@ export const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showInputApiKey, setShowInputApiKey] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [apiKey, setApiKey] = useState<string>("");
   const tooltipRef = useRef<HTMLDivElement>(null);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
@@ -23,6 +25,12 @@ export const Chat = () => {
       const savedMessages = localStorage.getItem("chatMessages");
       if (savedMessages) {
         setMessages(JSON.parse(savedMessages));
+      }
+
+      // Load API key from localStorage
+      const savedApiKey = localStorage.getItem("OPENAI_API_KEY");
+      if (savedApiKey) {
+        setApiKey(savedApiKey);
       }
     }
   }, []);
@@ -42,9 +50,16 @@ export const Chat = () => {
     });
   }, [messages]);
 
+  const handleApiKeySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (apiKey.trim()) {
+      localStorage.setItem("OPENAI_API_KEY", apiKey);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim()) return;
+    // if (!message.trim() || !apiKey.trim()) return;
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
@@ -100,7 +115,7 @@ export const Chat = () => {
     } catch (error) {
       console.error("Error sending message:", error);
       setErrorMessage(
-        "Failed to send message.\n Please, check internet connection or your token balance."
+        "Failed to send message.\nPlease, check internet connection or your token balance."
       );
     } finally {
       setIsLoading(false);
@@ -127,6 +142,9 @@ export const Chat = () => {
   const handleTooltipToggle = () => {
     setShowTooltip(!showTooltip);
   };
+  const handleInputApiKeyToggle = () => {
+    setShowInputApiKey(!showInputApiKey);
+  };
 
   const MessageContent = ({
     content,
@@ -152,12 +170,23 @@ export const Chat = () => {
         <button onClick={handleTooltipToggle} className={styles.tooltipButton}>
           What is SMART?
         </button>
+        <button
+          onClick={handleInputApiKeyToggle}
+          className={styles.tooltipButton}
+        >
+          Enter own Api Key
+        </button>
       </header>
 
       <Tooltip
         visible={showTooltip}
         onClose={() => setShowTooltip(false)}
         ref={tooltipRef}
+      />
+      <InputApiKey
+        visible={showInputApiKey}
+        onClose={() => setShowInputApiKey(false)}
+        //ref={tooltipRef}
       />
 
       <div className={styles.messages}>
@@ -191,6 +220,19 @@ export const Chat = () => {
         )}
         <div ref={endOfMessagesRef} />
       </div>
+
+      {/* <form className={styles.inputPanel} onSubmit={handleApiKeySubmit}>
+        <input
+          type="text"
+          value={apiKey}
+          onChange={(e) => setApiKey(e.target.value)}
+          placeholder="Enter your OpenAI API key... sk-or-..."
+          className={styles.input}
+        />
+        <button type="submit" className={styles.sendButton__rect}>
+          Save Key
+        </button>
+      </form> */}
 
       <form className={styles.inputPanel} onSubmit={handleSubmit}>
         <input
