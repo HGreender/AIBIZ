@@ -1,0 +1,47 @@
+.inputPanel {
+    padding: 0.5rem 1rem;
+    height: 2rem;
+    display: flex;
+    gap: 0.5rem;
+    border-top: 1px solid #333;
+}
+
+.input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    border: none;
+    background-color: #333;
+    color: #ffffff;
+    font-size: 0.9rem;
+
+    &::placeholder {
+        color: #888;
+    }
+
+    &:focus {
+        outline: none;
+        background-color: #444;
+    }
+}
+
+.saveButton {
+    width: 7rem;
+    border-radius: 1rem;
+    padding: 0.75rem 1rem;
+    border: none;
+    background-color: #2b5876;
+    background-color: #68591f88;
+    color: #ffffff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: #ffcc00;
+        color: #333;
+    }
+}

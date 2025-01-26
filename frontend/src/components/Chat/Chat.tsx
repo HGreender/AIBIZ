@@ -11,7 +11,7 @@ export const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [showInputApiKey, setShowInputApiKey] = useState(true);
+  const [showInputApiKey, setShowInputApiKey] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [apiKey, setApiKey] = useState<string>("");
   const tooltipRef = useRef<HTMLDivElement>(null);

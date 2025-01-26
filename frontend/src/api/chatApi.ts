@@ -17,7 +17,7 @@ const getLocalStorage = (key: string) => {
 };
 
 const savedApiKey = getAuthToken();
-console.log("OPENAI_API_KEY", savedApiKey);
+//console.log("OPENAI_API_KEY", savedApiKey);
 export type ChatMessage = {
   choices: any;
   id: string;

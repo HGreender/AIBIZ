@@ -28,7 +28,7 @@ export const InputApiKey = forwardRef<HTMLDivElement, InputApiKeyProps>(
           placeholder="Enter your OpenAI API key... sk-or-..."
           className={styles.input}
         />
-        <button type="submit" className={styles.sendButton__rect}>
+        <button type="submit" className={styles.saveButton}>
           Save Key
         </button>
       </form>
