@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const AUTH_TOKEN_KEY = "OPENAI_API_KEY";
-const getAuthToken = (): string | null => {
+const getAuthToken = (): string | null | undefined => {
   if (typeof window !== "undefined") {
     return getLocalStorage(AUTH_TOKEN_KEY);
   }
