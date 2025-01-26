@@ -21,16 +21,19 @@ export const InputApiKey = forwardRef<HTMLDivElement, InputApiKeyProps>(
 
     return (
       <form className={styles.inputPanel} onSubmit={handleApiKeySubmit}>
-        <input
-          type="text"
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
-          placeholder="Enter your OpenAI API key... sk-or-..."
-          className={styles.input}
-        />
-        <button type="submit" className={styles.saveButton}>
-          Save Key
-        </button>
+        <div>
+          <input
+            type="text"
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            placeholder="Enter your OpenAI API key... sk-or-..."
+            className={styles.input}
+          />
+          <button type="submit" className={styles.saveButton}>
+            Save Key
+          </button>
+        </div>
+        <p>Click on 'Save Key' button and reload the page</p>
       </form>
     );
   }

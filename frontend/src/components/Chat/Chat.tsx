@@ -102,6 +102,12 @@ export const Chat = () => {
     try {
       const response = await sendMessage(message).unwrap();
       const parsedObject = parseInput(response.choices[0].message.content);
+      if (!parsedObject || !parsedObject.suggestions) {
+        setErrorMessage(
+          "I'm not sure that understand your goal correctly. Try another question"
+        );
+        return;
+      }
 
       const assistantMessages: ChatMessage[] =
         parsedObject.suggestions?.map((suggestion: string, index: number) => ({
