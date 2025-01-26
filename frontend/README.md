@@ -2,10 +2,12 @@
 
 A web application that helps users transform their questions into SMART goals (Specific, Measurable, Achievable, Relevant, Time-bound).
 
+[Try out our DEMO](https://smart-goals-assistant.vercel.app/)
+
 ## Features
 
 - Converts user input into SMART goal format
-- Provides top 3 SMART goal suggestions
+- Provides top 5 SMART goal suggestions
 - Analyzes missing SMART components in user's initial question
 - Dark theme and mobile-first design
 - Real-time chat interface
@@ -16,7 +18,7 @@ A web application that helps users transform their questions into SMART goals (S
 - TypeScript
 - Redux Toolkit
 - SCSS Modules
-- OpenAI GPT-4
+- OpenAI GPT-4o-mini
 - Mobile-first responsive design
 
 ## Getting Started
@@ -63,3 +65,19 @@ A web application that helps users transform their questions into SMART goals (S
 ## Environment Variables
 
 - `OPENAI_API_KEY`: Your OpenAI API key
+
+## FAQ
+
+> 403 error (or 400-499)
+
+- Check your API key balance and date expired. Then enter full api key in input placeholder and click 'Save Key'. Don't forget to reload (`F5 or command+R`) the page <br>
+
+If you run project locally, then stop it, check your `.env` and type valid API key. Then run the project again
+
+```bash
+ npm run dev
+```
+
+> 500 error (any 5xx)
+
+- waiting while OpenAi team fix errors
