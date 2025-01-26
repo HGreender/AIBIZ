@@ -186,7 +186,6 @@ export const Chat = () => {
       <InputApiKey
         visible={showInputApiKey}
         onClose={() => setShowInputApiKey(false)}
-        //ref={tooltipRef}
       />
 
       <div className={styles.messages}>

@@ -21,17 +21,26 @@ A web application that helps users transform their questions into SMART goals (S
 
 ## Getting Started
 
+**Install Node.js and npm**:
+
+- Download and install Node.js from the [official website](https://nodejs.org/). npm is included with Node.js, so you will have both installed.
+- To verify the installation, run the following commands in your terminal:
+  ```bash
+  node -v
+  npm -v
+  ```
+
 1. Clone the repository
 
    ```bash
    git clone https://github.com/HGreender/AIBIZ.git
    ```
 
-Then move to `frontend` folder
+   Then move to `frontend` folder
 
-```
-cd AIBIZ/frontend
-```
+   ```
+   cd AIBIZ/frontend
+   ```
 
 2. Install dependencies:
 
