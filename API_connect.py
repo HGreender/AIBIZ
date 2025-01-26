@@ -1,13 +1,14 @@
 from openai import OpenAI
 
-with open('A:/key.txt', 'r') as file:
-    key = file.read()
+# with open('A:/key.txt', 'r') as file:
+#     key = file.read()
+key = 'sk-abcdef1234567890abcdef1234567890abcdef12'
 url = 'https://api.vsegpt.ru/v1'
 
 client = OpenAI(
     # Ваш ключ в VseGPT после регистрации
     api_key=key,
-    base_url=url,
+    # base_url=url,
 )
 req = input('Введите вашу цель: ')
 prompt = "Каким частям SMART не соответствует следующая цель: " \
