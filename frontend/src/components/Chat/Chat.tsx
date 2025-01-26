@@ -110,9 +110,10 @@ export const Chat = () => {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard
-      .writeText(text)
+      .writeText(text.slice(2).trim())
       .then(() => {
         console.log("Text copied to clipboard");
+        console.log(text.slice(2).trim());
       })
       .catch((err) => {
         console.error("Failed to copy text: ", err);
