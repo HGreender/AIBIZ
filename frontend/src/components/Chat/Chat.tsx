@@ -122,8 +122,9 @@ export const Chat = () => {
     }
   };
 
-  const clearMessages = () => {
+  const clearCache = () => {
     localStorage.removeItem("chatMessages");
+    localStorage.removeItem("OPENAI_API_KEY");
     setMessages([]);
   };
 
@@ -176,8 +177,8 @@ export const Chat = () => {
           </button>
         </div>
 
-        <button onClick={clearMessages} className={styles.clearButton}>
-          Clear Chat
+        <button onClick={clearCache} className={styles.clearButton}>
+          Clear Cache
         </button>
 
         <button
