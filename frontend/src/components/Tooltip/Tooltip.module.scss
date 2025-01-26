@@ -1,13 +1,15 @@
 .tooltip {
+    width: 300px;
     position: absolute;
     top: 20px;
+    left: 2vw;
     background-color: #68591f88;
     backdrop-filter: blur(30px);
     color: white;
     padding: 3rem 1.5rem;
     border-radius: 20px;
     z-index: 1000;
-    width: 300px;
+
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: ease all 0.3s;
 
@@ -27,8 +29,11 @@
     &::before {
         content: '';
         position: absolute;
-        width: 90vw;
-        height: 90vh;
+        width: 95vw;
+        height: 80vh;
+        margin: auto;
+        align-self: center;
+        justify-self: center;
         top: 0;
         left: 0;
     }

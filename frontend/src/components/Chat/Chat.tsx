@@ -163,16 +163,26 @@ export const Chat = () => {
   return (
     <div className={styles.chat}>
       <header className={styles.header}>
-        <h1>Make SMART goals</h1>
+        <div
+          className={styles.rowWrapper__center}
+          onClick={handleTooltipToggle}
+        >
+          <h1>Make SMART goals</h1>
+          <button
+            onClick={handleTooltipToggle}
+            className={styles.tooltipButton}
+          >
+            ?
+          </button>
+        </div>
+
         <button onClick={clearMessages} className={styles.clearButton}>
           Clear Chat
         </button>
-        <button onClick={handleTooltipToggle} className={styles.tooltipButton}>
-          What is SMART?
-        </button>
+
         <button
           onClick={handleInputApiKeyToggle}
-          className={styles.tooltipButton}
+          className={styles.apikeyButton}
         >
           Enter own Api Key
         </button>
@@ -219,19 +229,6 @@ export const Chat = () => {
         )}
         <div ref={endOfMessagesRef} />
       </div>
-
-      {/* <form className={styles.inputPanel} onSubmit={handleApiKeySubmit}>
-        <input
-          type="text"
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
-          placeholder="Enter your OpenAI API key... sk-or-..."
-          className={styles.input}
-        />
-        <button type="submit" className={styles.sendButton__rect}>
-          Save Key
-        </button>
-      </form> */}
 
       <form className={styles.inputPanel} onSubmit={handleSubmit}>
         <input

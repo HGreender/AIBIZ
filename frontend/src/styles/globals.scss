@@ -11,6 +11,10 @@ body {
   scroll-behavior: smooth;
 }
 
+button {
+  transition: background-color 0.2s;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }

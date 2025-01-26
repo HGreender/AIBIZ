@@ -29,9 +29,15 @@
     gap: 1rem;
 }
 
-.rowWrapper {
+.rowWrapper,
+.rowWrapper__center {
     display: flex;
+    align-items: center;
+}
 
+.rowWrapper__center {
+    justify-content: center;
+    cursor: pointer;
 }
 
 .message {
@@ -207,12 +213,28 @@
     cursor: pointer;
     margin-left: 0.5rem;
 
+
     &:hover {
         background-color: #45a049;
     }
 }
 
 .tooltipButton {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 1rem;
+
+    &:hover {
+        background-color: #ffcc00;
+    }
+}
+
+.apikeyButton {
     background-color: #007bff;
     color: white;
     border: none;
