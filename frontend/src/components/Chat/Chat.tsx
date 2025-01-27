@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import copyButton from "/public/icons/copy_icon.svg";
+import sendButton from "/public/icons/send_icon.svg";
 import { useSendMessageMutation } from "@/api/chatApi";
 import { ChatMessage } from "@/api/chatApi";
 import { Tooltip, ErrorModal, InputApiKey } from "@/components";
@@ -27,7 +30,6 @@ export const Chat = () => {
         setMessages(JSON.parse(savedMessages));
       }
 
-      // Load API key from localStorage
       const savedApiKey = localStorage.getItem("OPENAI_API_KEY");
       if (savedApiKey) {
         setApiKey(savedApiKey);
@@ -50,16 +52,8 @@ export const Chat = () => {
     });
   }, [messages]);
 
-  const handleApiKeySubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (apiKey.trim()) {
-      localStorage.setItem("OPENAI_API_KEY", apiKey);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // if (!message.trim() || !apiKey.trim()) return;
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
@@ -222,7 +216,12 @@ export const Chat = () => {
                 onClick={() => copyToClipboard(msg.content)}
                 className={styles.copyButton}
               >
-                Copy
+                <Image
+                  width={18}
+                  height={18}
+                  src={copyButton}
+                  alt="copy button"
+                />
               </button>
             )}
           </div>
@@ -246,7 +245,7 @@ export const Chat = () => {
           className={styles.input}
         />
         <button type="submit" className={styles.sendButton}>
-          ↑
+          <Image width={18} height={18} src={sendButton} alt="send button" />
         </button>
       </form>
 
